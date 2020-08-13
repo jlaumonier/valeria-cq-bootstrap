@@ -1,12 +1,10 @@
 #!/bin/bash
 
-INI_FILE=bootstrap.ini
-. read_config.sh $INI_FILE
-. init_env.sh check_packages_requirements.txt
+INI_FILE=check_packages.ini
 
-#for package in $(cat requirements.txt)
-#do
-#    avail_wheels $package --all_versions -p $PYTHON_MAJOR_VERSION.$PYTHON_MINOR_VERSION
-#done
+. init_modules.sh $INI_FILE
 
-AVAIL_WHEELS=
+. init_env.sh $INI_FILE check_packages_requirements.txt
+
+echo "Check packages"
+python3 check_packages.py
