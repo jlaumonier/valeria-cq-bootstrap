@@ -4,8 +4,9 @@
 # thanks to https://blog.sleeplessbeastie.eu/2019/11/11/how-to-parse-ini-configuration-file-using-bash/
 ReadINISections(){
   local filename="$1"
-  awk '{ if ($1 ~ /^\[/) section=tolower(gensub(/\[(.+)\]/,"\\1",1,$1)); configuration[section]=1 } END {for (key in config$
+  awk '{ if ($1 ~ /^\[/) section=tolower(gensub(/\[(.+)\]/,"\\1",1,$1)); configuration[section]=1 } END {for (key in configuration) { print key} }' ${filename}
 }
+
 
 # Get/Set all INI sections
 GetINISections(){
@@ -41,4 +42,11 @@ GetINISections(){
 echo "Read configuration $1"
 section="default"
 GetINISections "$1" "$section"
+
+echo "Adding python to the modules to load"
+PYTHON_VERSION="$(eval echo $\{configuration_${section}[PYTHON_VERSION]\})"
+MODULES="$(eval echo $\{configuration_${section}[MODULES]\}) python/$PYTHON_VERSION"
+VENV_DIR="$(eval echo $\{configuration_${section}[VENV_DIR]\})"
+
+
 

@@ -1,10 +1,12 @@
 #!/bin/bash
+# $1 name of the requirements.txt file
 
-VENV_DIR=venv
+INI_FILE=bootstrap.ini
+. read_config.sh $INI_FILE
 
 if [ ! -d "$VENV_DIR" ]; then
   python3 -m venv $VENV_DIR
 fi
 source $VENV_DIR/bin/activate
 pip3 install --upgrade pip
-pip3 install -r requirements.txt
+pip3 install -r $1
