@@ -8,3 +8,5 @@ INI_FILE=check_packages.ini
 
 echo "Check packages"
 python3 check_packages.py
+
+. remove_env.sh $INI_FILE

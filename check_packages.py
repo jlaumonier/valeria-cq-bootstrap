@@ -1,8 +1,9 @@
-import subprocess
-import sys
-import requirements
 import configparser
+import subprocess
+
+import requirements
 from packaging import version
+
 
 def parse_one_result(avail_wheel_results, require):
     package_is_present = False
@@ -16,41 +17,38 @@ def parse_one_result(avail_wheel_results, require):
             parsed_result.append(splitted_result)
     return parsed_result
 
-reqs = None
 
-
-# Parse target environement config file
+# Parse target environment config file
 target_config = configparser.ConfigParser(strict=False)
 target_config.read('bootstrap.ini')
 target_python_version = target_config['default']['PYTHON_VERSION'].split('.')
 
 # Open requirements.txt to parse it
 fd = open('requirements.txt', 'r')
-reqs = requirements.parse(fd)
-for req in reqs:
-    print('')
-    print('Testing', req.name, req.specs)
+reqmts = requirements.parse(fd)
+for req in reqmts:
+    print('Testing', req.name, req.specs, flush=False)
     result = subprocess.run(['avail_wheels',
                              req.name,
-                	     '--all_versions',
-                             '-p'+str(target_python_version[0])+'.'+str(target_python_version[1])], stdout=subprocess.PIPE)
+                             '--all_versions',
+                             '-p' + str(target_python_version[0]) + '.' + str(target_python_version[1])],
+                            stdout=subprocess.PIPE)
 
     parsed_results = parse_one_result(result.stdout, req)
     if len(parsed_results) != 0:
-       is_version_exists = False
-       for r in parsed_results:
-           existing_version = r[1].decode('utf8')
-           require_version = req.specs[0][1]
-           if version.parse(existing_version) == version.parse(require_version):
-               is_version_exists = True
-           
-       if is_version_exists:
-           print('Package is usable')
-       else:
-           print('Package version not present. Possible versions:')
-           for pv in parsed_results:
-               print(pv[1])
+        is_version_exists = False
+        for r in parsed_results:
+            existing_version = r[1].decode('utf8')
+            require_version = req.specs[0][1]
+            if version.parse(existing_version) == version.parse(require_version):
+                is_version_exists = True
+
+        if is_version_exists:
+            print(' Package is present')
+        else:
+            print('Package version not present. Possible versions:', flush=False)
+            for pv in parsed_results:
+                print(pv[1], ',', flush=False)
+            print('')
     else:
         print("Package does not exists")
-
-
