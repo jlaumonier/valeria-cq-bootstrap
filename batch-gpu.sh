@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --mem-per-cpu=2G
 #SBATCH --time=1:00:00
-#SBATCH --cpus-per-task=2
+#SBATCH --cpus-per-task=8
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
 
