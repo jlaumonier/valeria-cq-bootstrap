@@ -27,7 +27,7 @@ target_python_version = target_config['default']['PYTHON_VERSION'].split('.')
 fd = open('requirements.txt', 'r')
 reqmts = requirements.parse(fd)
 for req in reqmts:
-    print('Testing', req.name, req.specs, flush=False)
+    print(req.name, req.specs, end='')
     result = subprocess.run(['avail_wheels',
                              req.name,
                              '--all_versions',
@@ -46,9 +46,9 @@ for req in reqmts:
         if is_version_exists:
             print(' Package is present')
         else:
-            print('Package version not present. Possible versions:', flush=False)
+            print(' Package version not present. Possible versions: ', end='')
             for pv in parsed_results:
-                print(pv[1], ',', flush=False)
+                print( pv[1], ', ', end='')
             print('')
     else:
-        print("Package does not exists")
+        print(" Package does not exist")
