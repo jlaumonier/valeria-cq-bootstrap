@@ -6,9 +6,9 @@ INI_FILE=$1
 
 if [ ! -d "$VENV_DIR" ]; then
   echo "Create venv dir"
-  if [ ! -z "$SLURM_DIR" ]; then
+  if [ ! -z "$SLURM_TMPDIR" ]; then
      echo "SLURM environment"
-     FINAL_VENV_DIR="$SLURM_DIR/$VENV_DIR"
+     FINAL_VENV_DIR="$SLURM_TMPDIR/$VENV_DIR"
      PIP_NO_INDEX="--no_index"
   else
      echo "normal environment"
