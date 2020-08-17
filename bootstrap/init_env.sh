@@ -9,7 +9,7 @@ if [ ! -d "$VENV_DIR" ]; then
   if [ ! -z "$SLURM_TMPDIR" ]; then
      echo "SLURM environment"
      FINAL_VENV_DIR="$SLURM_TMPDIR/$VENV_DIR"
-     PIP_NO_INDEX="--no_index"
+     PIP_NO_INDEX="--no-index"
   else
      echo "normal environment"
      FINAL_VENV_DIR=$VENV_DIR
