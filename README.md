@@ -10,6 +10,7 @@ Existing tools:
 - `remove_env.sh` : remove the environment directory as defined in config file (1st parameter)
 - `execute.sh `: execute python script as define in config file (1st parameter). Assume the venv is init and activated. Second parameter is pass to the python script 
 
+All scripts must be launch from the parent directory of bootstrap/. Because i do not find how to include other bash scripts independently of their location :( 
 
 Config files :  this file define the following variable
 - `PYTHON_VERSION` : version of python to be used 
